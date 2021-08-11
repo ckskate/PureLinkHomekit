@@ -1,9 +1,14 @@
 from enum import Enum
 
-DEVICE_NUMBER= "475"
+DEVICE_NUMBER = "475"
 
-SLEEP_TIMER_OFF = 'OFF'
-SENSOR_INIT_STATES = ['INIT', 'OFF', 'FAIL']
+
+class StateType(Enum):
+    """State type from received message."""
+
+    CURRENT_STATE = 'CURRENT-STATE'
+    STATE_CHANGE = 'STATE-CHANGE'
+    ENVIRONMENTAL_DATA = 'ENVIRONMENTAL-CURRENT-SENSOR-DATA'
 
 
 class FanMode(Enum):

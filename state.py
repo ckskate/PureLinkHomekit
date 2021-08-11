@@ -56,3 +56,11 @@ class EnvironmentState:
         self.dust = dust
 
 
+    def __repr__(self):
+        fields = [("humidity", self.humidity),
+                  ("volatile_compounds", self.volatile_compounds),
+                  ("temperature", self.temperature),
+                  ("dust", self.dust)]
+        string_fields = map(lambda f: "{0}={1}".format(f[0], f[1]), fields)
+        return 'EnvironmentState(' + ",".join(string_fields) + ')'
+
