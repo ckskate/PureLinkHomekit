@@ -22,16 +22,15 @@ class Fan:
         self.mqttc.on_message = self.testRead
         self.mqttc.username_pw_set(self.username,
                                    password=self.password)
-        self.mqttc.connect("{0}.local".format(username),
-                           port=1883)
+        self.mqttc.connect(f"{username}.local", port=1883)
         try:
             self.mqttc.loop_forever()
         finally:
             print("goodbye!")
+            return
 
     def _subscribe_to_topics(self, client, userdata, flags, rc) -> None:
-        client.subscribe("{0}/{1}/status/current".format(DEVICE_NUMBER,
-                                                         self.username))
+        client.subscribe(f"{DEVICE_NUMBER}/{self.username}/status/current")
 
     def testRead(self, client, userdata, message) -> None:
         dto = json.loads(message.payload)

@@ -35,7 +35,7 @@ class DeviceState:
                   ("oscillation", self.oscillation),
                   ("quality_target", self.quality_target),
                   ("standby_monitoring", self.standby_monitoring)]
-        string_fields = map(lambda f: "{0}={1}".format(f[0], f[1]), fields)
+        string_fields = map(lambda x: f"{x[0]}={x[1]}", fields)
         return 'DeviceState(' + ",".join(string_fields) + ')'
 
 
@@ -61,6 +61,6 @@ class EnvironmentState:
                   ("volatile_compounds", self.volatile_compounds),
                   ("temperature", self.temperature),
                   ("dust", self.dust)]
-        string_fields = map(lambda f: "{0}={1}".format(f[0], f[1]), fields)
+        string_fields = map(lambda x: f"{x[0]}={x[1]}", fields)
         return 'EnvironmentState(' + ",".join(string_fields) + ')'
 

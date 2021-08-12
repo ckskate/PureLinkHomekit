@@ -5,8 +5,7 @@ from constants import *
 
 class StateAssembler:
 
-    # should be private
-    def read_dto_value(
+    def __read_dto_value(
             self,
             dto: Dict[str, Any],
             key: str
@@ -43,19 +42,19 @@ class StateAssembler:
         if isinstance(dto, dict) == False:
             return None
 
-        fan_mode = (FanMode(self.read_dto_value(dto, "fmod"))
+        fan_mode = (FanMode(self.__read_dto_value(dto, "fmod"))
                     if "fmod" in dto else None)
-        fan_state = (FanState(self.read_dto_value(dto, "fnst"))
+        fan_state = (FanState(self.__read_dto_value(dto, "fnst"))
                     if "fnst" in dto else None)
-        fan_speed = (FanSpeed(self.read_dto_value(dto, "fnsp"))
+        fan_speed = (FanSpeed(self.__read_dto_value(dto, "fnsp"))
                     if "fnsp" in dto else None)
-        quality_target = (QualityTarget(self.read_dto_value(dto, "qtar"))
+        quality_target = (QualityTarget(self.__read_dto_value(dto, "qtar"))
                     if "qtar" in dto else None)
-        oscillation = (Oscillation(self.read_dto_value(dto, "oson"))
+        oscillation = (Oscillation(self.__read_dto_value(dto, "oson"))
                     if "oson" in dto else None)
-        monitoring = (StandbyMonitoring(self.read_dto_value(dto, "rhtm"))
+        monitoring = (StandbyMonitoring(self.__read_dto_value(dto, "rhtm"))
                     if "rhtm" in dto else None)
-        night_mode = (NightMode(self.read_dto_value(dto, "nmod"))
+        night_mode = (NightMode(self.__read_dto_value(dto, "nmod"))
                     if "nmod" in dto else None)
 
         return DeviceState(fan_mode,
@@ -75,24 +74,24 @@ class StateAssembler:
             return None
 
         try:
-            humidity = (int(self.read_dto_value(dto, "hact"))
+            humidity = (int(self.__read_dto_value(dto, "hact"))
                         if "hact" in dto else None)
         except Exception:
             humidity = 0
 
         try:
-            vocs = (int(self.read_dto_value(dto, "vact"))
+            vocs = (int(self.__read_dto_value(dto, "vact"))
                                 if "vact" in dto else None)
         except Exception:
             vocs = 0
 
         try:
-            temp = (float(self.read_dto_value(dto, "tact")) / 10
+            temp = (float(self.__read_dto_value(dto, "tact")) / 10
                     if "tact" in dto else None)
         except Exception:
             temp = 0
 
-        dust = (int(self.read_dto_value(dto, "pact"))
+        dust = (int(self.__read_dto_value(dto, "pact"))
                 if "pact" in dto else None)
 
         return EnvironmentState(humidity,
