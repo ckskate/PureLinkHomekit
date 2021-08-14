@@ -1,5 +1,7 @@
+import asyncio
 import json
-import paho.mqtt.client as mqtt
+from asyncio_mqtt import Client, MqttError
+from contextlib import AsyncExitStack, asynccontextmanager
 
 import hasher
 from constants import DEVICE_NUMBER
@@ -11,32 +13,34 @@ assembler = StateAssembler()
 class Fan:
     username: str
     password: str
-    mqttc: mqtt.Client
+    stack: AsyncExitStack
+    mqttc: Client
 
-    def __init__(self, username, password) -> None:
+    @staticmethod
+    async def _init(username, password, stack):
+        fan = Fan(username, password, stack)
+        await fan.mqttc.connect()
+        await fan.mqttc.subscribe(f"{DEVICE_NUMBER}/{username}/status/current")
+        return fan
+
+    def __init__(self, username, password, stack):
         self.username = username
         self.password = hasher.hash_password(password)
+        self.stack = stack
 
-        self.mqttc = mqtt.Client()
-        self.mqttc.on_connect = self._subscribe_to_topics
-        self.mqttc.on_message = self.testRead
-        self.mqttc.username_pw_set(self.username,
-                                   password=self.password)
-        self.mqttc.connect(f"{username}.local", port=1883)
-        try:
-            self.mqttc.loop_forever()
-        finally:
-            print("goodbye!")
-            return
+        self.mqttc = Client(f"{username}.local",
+                            port=1883,
+                            username=f"{username}",
+                            password=f"{self.password}")
 
-    def _subscribe_to_topics(self, client, userdata, flags, rc) -> None:
-        client.subscribe(f"{DEVICE_NUMBER}/{self.username}/status/current")
 
-    def testRead(self, client, userdata, message) -> None:
-        dto = json.loads(message.payload)
-        print(repr(dto))
-        dto = assembler.state_from_message_json(dto)
-        print(repr(dto))
+    async def read_state(self) -> None:
+        messages = await self.stack.enter_async_context(self.mqttc.unfiltered_messages())
+        async for message in messages:
+            dto = json.loads(message.payload)
+            print(repr(dto))
+            dto = assembler.state_from_message_json(dto)
+            print(repr(dto))
 
 
 if __name__ == "__main__":
@@ -48,5 +52,14 @@ if __name__ == "__main__":
     username = user['id']
     password = user['pass']
 
-    client = Fan(username, password)
+    async def main():
+        async with AsyncExitStack() as stack:
+            client = await Fan._init(username, password, stack)
 
+            while True:
+                try:
+                    await client.read_state()
+                except MqttError:
+                    print("failure! reconnecting")
+
+    asyncio.run(main())
