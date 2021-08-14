@@ -4,5 +4,3 @@ from state import DeviceState, EnvironmentState
 from constants import *
 
 class CommandAssembler:
-
-    

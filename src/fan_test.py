@@ -3,10 +3,10 @@ import json
 from asyncio_mqtt import Client, MqttError
 from contextlib import AsyncExitStack, asynccontextmanager
 
-import hasher
-from constants import DEVICE_NUMBER
-from state import DeviceState
-from state_assembler import StateAssembler
+from util.hasher import hash_password
+from util.constants import DEVICE_NUMBER
+from model.state import DeviceState
+from assembler.state_assembler import StateAssembler
 
 assembler = StateAssembler()
 
@@ -25,8 +25,9 @@ class Fan:
 
     def __init__(self, username, password, stack):
         self.username = username
-        self.password = hasher.hash_password(password)
+        self.password = hash_password(password)
         self.stack = stack
+        self.command_path = f"{DEVICE_NUMBER}/{username}/command"
 
         self.mqttc = Client(f"{username}.local",
                             port=1883,

@@ -1,7 +1,7 @@
 from typing import Dict, Union, Any, Optional
 
-from state import DeviceState, EnvironmentState
-from constants import *
+from model.state import DeviceState, EnvironmentState
+from util.constants import *
 
 class StateAssembler:
 
