@@ -9,7 +9,7 @@ class CommandAssembler:
 
     def json_from_command(
             self,
-            command: Command) -> Optional[Dict[str: Any]]:
+            command: Command) -> Optional[str]:
         if (command.commandType == CommandType.REQUEST_ENVIRONMENT_STATE
                 or command.commandType == CommandType.REQUEST_STATE):
             return self.__json_for_request_command(command.commandType)
@@ -20,22 +20,26 @@ class CommandAssembler:
 
     def __json_for_request_command(self,
                                    commandType: CommandType
-            ) -> Optional[Dict[str: Any]]:
+            ) -> Optional[str]:
         payload = {
             "msg": commandType.value,
             "time": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
         }
-        return payload
+        return json.dumps(payload)
 
     def __json_for_set_state_command(self,
                                     state: DeviceState
-            ) -> Optional[Dict[str: Any]]:
+            ) -> Optional[str]:
         data = StateAssembler().dto_from_device_state(state)
+
+        if data == None:
+            return None
+
         payload = {
             "msg": CommandType.SET_STATE.value,
             "time": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "mode-reason": "LAPP",
             "data": data
         }
-        return payload
+        return json.dumps(payload)
 
