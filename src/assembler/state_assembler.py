@@ -1,3 +1,4 @@
+import json
 from typing import Dict, Union, Any, Optional
 
 from model.state import DeviceState, EnvironmentState
@@ -12,10 +13,23 @@ class StateAssembler:
           ) -> Union[str, int]:
         return dto[key][1] if isinstance(dto[key], list) else dto[key]
 
+    def dto_from_device_state(self, state: DeviceState) -> Optional[Dict[str, Any]]:
+        dto = {
+            "fmod": state.fan_mode.value,
+            "fnsp": state.fan_speed.value,
+            "oson": state.oscillation.value,
+            "qtar": state.quality_target.value,
+            "rhtm": state.standby_monitoring.value,
+            "nmod": state.night_mode.value
+        }
+        return dto
+
     def state_from_message_json(
             self,
-            dto: Dict[str, Any]
+            dto: bytes
           ) -> Optional[DeviceState]:
+
+        dto = json.loads(dto)
 
         if not isinstance(dto, dict):
             return None
@@ -27,14 +41,14 @@ class StateAssembler:
 
         if (command_type == StateType.CURRENT_STATE
               or command_type == StateType.STATE_CHANGE):
-            return (self.device_state_from_state_json(dto["product-state"])
+            return (self.__device_state_from_state_json(dto["product-state"])
                     if "product-state" in dto else None)
         elif command_type == StateType.ENVIRONMENTAL_DATA:
-            return (self.environment_state_from_state_json(dto["data"])
+            return (self.__environment_state_from_state_json(dto["data"])
                     if "data" in dto else None)
         return None
 
-    def device_state_from_state_json(
+    def __device_state_from_state_json(
             self,
             dto: Dict[str, Any]
           ) -> DeviceState:
@@ -65,7 +79,7 @@ class StateAssembler:
                            quality_target,
                            monitoring)
 
-    def environment_state_from_state_json(
+    def __environment_state_from_state_json(
             self,
             dto: Dict[str, Any]
           ) -> DeviceState:

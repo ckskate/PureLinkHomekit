@@ -2,6 +2,13 @@ from enum import Enum
 
 DEVICE_NUMBER = "475"
 
+class CommandType(Enum):
+    """Types of commands you can send the fan."""
+
+    REQUEST_ENVIRONMENT_STATE = 'REQUEST-PRODUCT-ENVIRONMENT-CURRENT-SENSOR-DATA'
+    REQUEST_STATE = 'REQUEST-CURRENT-STATE'
+    SET_STATE = 'STATE-SET'
+
 
 class StateType(Enum):
     """State type from received message."""
