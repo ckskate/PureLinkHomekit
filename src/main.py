@@ -20,17 +20,12 @@ if __name__ == "__main__":
     password = user['pass']
 
     persist_filepath = str(pathlib.PurePath(__file__).parent.parent) + "/fan_device.state"
-    async def main():
-        async with AsyncExitStack() as stack:
-            driver = AccessoryDriver(persist_file=persist_filepath,
-                                     pincode="000-00-000".encode("ascii"))
+    driver = AccessoryDriver(persist_file=persist_filepath,
+                             pincode="000-00-000".encode("ascii"))
 
-            fan = await HomekitFan._init(username, password, driver, stack)
-            driver.add_accessory(accessory=fan)
+    fan = HomekitFan(username, password, driver)
+    driver.add_accessory(accessory=fan)
 
-            signal.signal(signal.SIGTERM, driver.signal_handler)
-            return driver
-
-    driver = asyncio.run(main())
+    signal.signal(signal.SIGTERM, driver.signal_handler)
     driver.start()
 

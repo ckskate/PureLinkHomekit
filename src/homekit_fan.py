@@ -15,28 +15,14 @@ class HomekitFan(Accessory):
     category = CATEGORY_FAN
 
     fan_service: FanService
-    exit_stack: AsyncExitStack
 
-    @staticmethod
-    async def _init(username: str,
-                    password: str,
-                    driver: AccessoryDriver,
-                    exit_stack: AsyncExitStack):
-        fan_service = await FanService._init(username, password, exit_stack)
-        fan = HomekitFan(username, password, driver, fan_service, exit_stack)
-        return fan
-
-    # Only meant for internal usage, use _init(...) instead
     def __init__(self,
                  username: str,
                  password: str,
-                 driver: AccessoryDriver,
-                 fan_service: FanService,
-                 exit_stack: AsyncExitStack):
+                 driver: AccessoryDriver):
         super().__init__(driver, display_name="Dyson PureLink")
 
-        self.fan_service = fan_service
-        self.exit_stack = exit_stack
+        self.fan_service = FanService(username, password)
 
         self.set_info_service(firmware_revision="0.1",
                               manufacturer="Saul T. Dong, BBC",
@@ -49,6 +35,9 @@ class HomekitFan(Accessory):
         self.rotation_char = fan.get_characteristic("SwingMode")
 
         fan.setter_callback = self.update_state
+
+    async def start(self):
+        await self.fan_service.start_reading()
 
     @Accessory.run_at_interval(3)
     async def run(self):

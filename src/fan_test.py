@@ -14,31 +14,17 @@ from assembler.command_assembler import CommandAssembler
 class FanService:
     username: str
     password: str
-    stack: AsyncExitStack
     mqttc: Client
     command_topic: str
+
     most_recent_state: Optional[DeviceState]
     most_recent_environment_state: Optional[EnvironmentState]
 
-    @staticmethod
-    async def _init(username: str,
-                    password: str,
-                    stack: AsyncExitStack):
-        fan_service = FanService(username, password, stack)
-        await fan_service.mqttc.connect()
-        await fan_service.mqttc.subscribe(f"{DEVICE_NUMBER}/{username}/status/current")
-        # start reading the states
-        asyncio.get_event_loop().create_task(fan_service.read_states())
-        return fan_service
-
-    # Only meant for internal usage, use _init(...) instead
     def __init__(self,
                  username: str,
-                 password: str,
-                 stack: AsyncExitStack):
+                 password: str):
         self.username = username
         self.password = hash_password(password)
-        self.stack = stack
         self.command_topic = f"{DEVICE_NUMBER}/{username}/command"
         self.mqttc = Client(f"{username}.local",
                             port=1883,
@@ -47,17 +33,24 @@ class FanService:
         self.most_recent_state = None
         self.most_recent_environment_state = None
 
+    async def start_reading(self):
+        await self.mqttc.connect()
+        await self.mqttc.subscribe(f"{DEVICE_NUMBER}/{self.username}/status/current")
+        # start reading the states
+        asyncio.get_event_loop().create_task(self.read_states())
+
     async def read_states(self) -> None:
         print("running read states")
-        messages = await self.stack.enter_async_context(
-                             self.mqttc.unfiltered_messages()
-                         )
-        async for message in messages:
-            state = StateAssembler().state_from_message_json(message.payload)
-            if isinstance(state, DeviceState):
-                self.most_recent_state = state
-            elif isinstance(state, EnvironmentState):
-                self.most_recent_environment_state = state
+        async with AsyncExitStack() as stack:
+            assembler = StateAssembler()
+            messages = await stack.enter_async_context(
+                                 self.mqttc.unfiltered_messages())
+            async for message in messages:
+                state = assembler.state_from_message_json(message.payload)
+                if isinstance(state, DeviceState):
+                    self.most_recent_state = state
+                elif isinstance(state, EnvironmentState):
+                    self.most_recent_environment_state = state
 
     async def request_states(self) -> None:
         #await asyncio.gather(self.write_command(Command(CommandType.REQUEST_STATE)),
