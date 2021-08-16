@@ -27,6 +27,30 @@ class DeviceState:
         self.quality_target = quality_target
         self.standby_monitoring = standby_monitoring
 
+    def state_setting_values_to(self,
+                                fan_mode: Optional[FanMode] = None,
+                                fan_state: Optional[FanState] = None,
+                                night_mode: Optional[NightMode] = None,
+                                speed: Optional[FanSpeed] = None,
+                                oscillation: Optional[Oscillation] = None,
+                                quality_target: Optional[QualityTarget] = None,
+                                standby_monitoring: Optional[StandbyMonitoring] = None):
+        fan_mode = self.fan_mode if fan_mode == None else fan_mode
+        fan_state = self.fan_state if fan_state == None else fan_state
+        night_mode= self.night_mode if night_mode == None else night_mode
+        speed = self.speed if speed == None else speed
+        oscillation = self.oscillation if oscillation == None else oscillation
+        quality_target = self.quality_target if quality_target == None else quality_target
+        standby_monitoring = self.standby_monitoring if standby_monitoring == None else standby_monitoring
+
+        return DeviceState(fan_mode,
+                           fan_state,
+                           night_mode,
+                           speed,
+                           oscillation,
+                           quality_target,
+                           standby_monitoring)
+
     def __repr__(self):
         fields = [("fan_mode", self.fan_mode),
                   ("fan_state", self.fan_state),

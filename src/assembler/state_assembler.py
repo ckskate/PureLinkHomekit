@@ -27,7 +27,7 @@ class StateAssembler:
     def state_from_message_json(
             self,
             dto: bytes
-          ) -> Optional[DeviceState]:
+          ) -> Optional[Union[DeviceState, EnvironmentState]]:
 
         dto = json.loads(dto)
 

@@ -1,9 +1,11 @@
 from typing import Dict, Union, Any, Optional
+import time
+import json
 
-from state import DeviceState, EnvironmentState
-from assembler import StateAssembler
-from command import Command
-from constants import *
+from model.state import DeviceState, EnvironmentState
+from model.command import Command
+from assembler.state_assembler import StateAssembler
+from util.constants import *
 
 class CommandAssembler:
 
@@ -14,7 +16,7 @@ class CommandAssembler:
                 or command.commandType == CommandType.REQUEST_STATE):
             return self.__json_for_request_command(command.commandType)
         elif (command.commandType == CommandType.SET_STATE
-                and isinstance(command.state, DeviceState):
+                and isinstance(command.state, DeviceState)):
             return self.__json_for_set_state_command(command.state)
         return None
 

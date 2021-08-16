@@ -8,9 +8,7 @@ class Command:
     commandType: CommandType
     state: Optional[DeviceState]
 
-    def __init___(self,
-                  commandType: CommandType,
-                  state: Optional[DeviceState] = None):
+    def __init__(self, commandType: CommandType, state: Optional[DeviceState] = None):
         self.commandType = commandType
         self.state = state
 

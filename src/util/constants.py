@@ -32,6 +32,22 @@ class Oscillation(Enum):
     OSCILLATION_ON = 'ON'
     OSCILLATION_OFF = 'OFF'
 
+    @staticmethod
+    def from_homekit_value(value: int):
+        if value == 0:
+            return Oscillation.OSCILLATION_OFF
+        elif value == 1:
+            return Oscillation.OSCILLATION_ON
+        else:
+            return None
+
+    def homekit_value(self):
+        if self == Oscillation.OSCILLATION_ON:
+            return 1
+        elif self == Oscillation.OSCILLATION_OFF:
+            return 0
+        else:
+            return None
 
 class NightMode(Enum):
     """Night mode."""
@@ -55,6 +71,56 @@ class FanSpeed(Enum):
     FAN_SPEED_10 = '0010'
     FAN_SPEED_AUTO = 'AUTO'
 
+    @staticmethod
+    def from_homekit_value(value: float):
+        tens_place = value // 10
+        if tens_place == 0 or tens_place == 1:
+            return FanSpeed.FAN_SPEED_1
+        elif tens_place == 2:
+            return FanSpeec.FAN_SPEED_2
+        elif tens_place == 3:
+            return FanSpeec.FAN_SPEED_3
+        elif tens_place == 4:
+            return FanSpeec.FAN_SPEED_4
+        elif tens_place == 5:
+            return FanSpeec.FAN_SPEED_5
+        elif tens_place == 6:
+            return FanSpeec.FAN_SPEED_6
+        elif tens_place == 7:
+            return FanSpeec.FAN_SPEED_7
+        elif tens_place == 8:
+            return FanSpeec.FAN_SPEED_8
+        elif tens_place == 9:
+            return FanSpeec.FAN_SPEED_9
+        elif tens_place == 10:
+            return FanSpeec.FAN_SPEED_10
+        else:
+            return None
+
+    def homekit_value(self):
+        if self == FanSpeed.FAN_SPEED_1:
+            return 10.0
+        elif self == FanSpeed.FAN_SPEED_2:
+            return 20.0
+        elif self == FanSpeed.FAN_SPEED_3:
+            return 30.0
+        elif self == FanSpeed.FAN_SPEED_4:
+            return 40.0
+        elif self == FanSpeed.FAN_SPEED_5:
+            return 50.0
+        elif self == FanSpeed.FAN_SPEED_6:
+            return 60.0
+        elif self == FanSpeed.FAN_SPEED_7:
+            return 70.0
+        elif self == FanSpeed.FAN_SPEED_8:
+            return 80.0
+        elif self == FanSpeed.FAN_SPEED_9:
+            return 90.0
+        elif self == FanSpeed.FAN_SPEED_10:
+            return 100.0
+        else:
+            return None
+
 
 class FanState(Enum):
     """Fan State."""
@@ -62,6 +128,22 @@ class FanState(Enum):
     FAN_OFF = "OFF"
     FAN_ON = "FAN"
 
+    @staticmethod
+    def from_homekit_value(value: int):
+        if value == 0:
+            return FanState.FAN_OFF
+        elif value == 1:
+            return FanState.FAN_ON
+        else:
+            return None
+
+    def homekit_value(self):
+        if self == FanState.FAN_OFF:
+            return 0
+        elif self == FanState.FAN_ON:
+            return 1
+        else:
+            return None
 
 class QualityTarget(Enum):
     """Quality Target for air."""
