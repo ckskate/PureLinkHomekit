@@ -40,7 +40,6 @@ class FanService:
         asyncio.get_event_loop().create_task(self.read_states())
 
     async def read_states(self) -> None:
-        print("running read states")
         async with AsyncExitStack() as stack:
             assembler = StateAssembler()
             messages = await stack.enter_async_context(

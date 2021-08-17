@@ -1,6 +1,6 @@
 import asyncio
 import json
-import signal, pathlib
+import signal, pathlib, logging
 import configparser
 
 from contextlib import AsyncExitStack, asynccontextmanager
@@ -12,6 +12,7 @@ from homekit_fan import HomekitFan
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
 
     config = configparser.ConfigParser()
     config.read('user.ini')
@@ -20,8 +21,7 @@ if __name__ == "__main__":
     password = user['pass']
 
     persist_filepath = str(pathlib.PurePath(__file__).parent.parent) + "/fan_device.state"
-    driver = AccessoryDriver(persist_file=persist_filepath,
-                             pincode="000-00-000".encode("ascii"))
+    driver = AccessoryDriver(persist_file=persist_filepath)
 
     fan = HomekitFan(username, password, driver)
     driver.add_accessory(accessory=fan)

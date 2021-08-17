@@ -16,7 +16,7 @@ class StateAssembler:
     def dto_from_device_state(self, state: DeviceState) -> Optional[Dict[str, Any]]:
         dto = {
             "fmod": state.fan_mode.value,
-            "fnsp": state.fan_speed.value,
+            "fnsp": state.speed.value,
             "oson": state.oscillation.value,
             "qtar": state.quality_target.value,
             "rhtm": state.standby_monitoring.value,

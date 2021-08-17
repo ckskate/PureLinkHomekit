@@ -7,7 +7,9 @@ from pyhap.accessory_driver import AccessoryDriver
 from pyhap.const import CATEGORY_FAN
 
 from model.state import DeviceState, EnvironmentState
+from model.command import Command
 from fan_test import FanService
+from util.constants import *
 
 
 class HomekitFan(Accessory):
@@ -49,7 +51,6 @@ class HomekitFan(Accessory):
         current_state = self.fan_service.most_recent_state
 
         if current_state == None:
-            print("current state was none")
             return
 
         self.active_char.set_value(current_state.fan_state.homekit_value())
@@ -60,16 +61,19 @@ class HomekitFan(Accessory):
         await self.fan_service.disconnect()
 
     def update_state(self, char_values: Dict[str, Any]) -> None:
-        is_active = (FanState.from_homekit_value(char_values['Active'])
+        is_active = (FanMode.from_homekit_value(char_values['Active'])
                         if 'Active' in char_values else None)
+        if 'RotationSpeed' in char_values and char_values['RotationSpeed'] == 0.0:
+            is_active = FanState.FAN_OFF
         rotation_speed = (FanSpeed.from_homekit_value(char_values['RotationSpeed'])
                             if 'RotationSpeed' in char_values else None)
         oscillation = (Oscillation.from_homekit_value(char_values['SwingMode'])
                         if 'SwingMode' in char_values else None)
 
-        desired_state = self.fan_service.most_recent_state.state_setting_values_to(fan_state=is_active,
+        desired_state = self.fan_service.most_recent_state.state_setting_values_to(fan_mode=is_active,
                                                                                    speed=rotation_speed,
                                                                                    oscillation=oscillation)
         state_command = Command(CommandType.SET_STATE, desired_state)
         self.driver.add_job(self.fan_service.write_command(state_command))
+        self.driver.add_job(self.fan_service.request_states())
 
