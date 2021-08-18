@@ -37,7 +37,7 @@ class FanService:
         await self.mqttc.connect()
         await self.mqttc.subscribe(f"{DEVICE_NUMBER}/{self.username}/status/current")
         # start reading the states
-        asyncio.get_event_loop().create_task(self.read_states())
+        asyncio.create_task(self.read_states())
 
     async def read_states(self) -> None:
         async with AsyncExitStack() as stack:

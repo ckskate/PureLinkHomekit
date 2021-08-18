@@ -21,7 +21,8 @@ if __name__ == "__main__":
     password = user['pass']
 
     persist_filepath = str(pathlib.PurePath(__file__).parent.parent) + "/fan_device.state"
-    driver = AccessoryDriver(persist_file=persist_filepath)
+    driver = AccessoryDriver(persist_file=persist_filepath,
+                             loop=asyncio.get_event_loop())
 
     fan = HomekitFan(username, password, driver)
     driver.add_accessory(accessory=fan)
