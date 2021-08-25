@@ -34,7 +34,7 @@ class FanService:
         self.most_recent_environment_state = None
 
     async def start_reading(self):
-        await self.mqttc.connect()
+        await self.mqttc.connect(timeout=1)
         await self.mqttc.subscribe(f"{DEVICE_NUMBER}/{self.username}/status/current")
         # start reading the states
         asyncio.create_task(self.read_states())

@@ -105,8 +105,11 @@ class StateAssembler:
         except Exception:
             temp = 0
 
-        dust = (int(self.__read_dto_value(dto, "pact"))
-                if "pact" in dto else None)
+        try:
+            dust = (int(self.__read_dto_value(dto, "pact"))
+                    if "pact" in dto else None)
+        except Exception:
+            dust = 0
 
         return EnvironmentState(humidity,
                                 vocs,

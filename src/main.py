@@ -15,7 +15,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     config = configparser.ConfigParser()
-    config.read('user.ini')
+    config.read('~/PureLinkHomekit/src/user.ini')
     user = config['User']
     username = user['id']
     password = user['pass']

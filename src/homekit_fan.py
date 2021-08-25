@@ -1,3 +1,4 @@
+import sys
 import asyncio
 from typing import Dict, Union, Any, Optional
 from contextlib import AsyncExitStack, asynccontextmanager
@@ -39,15 +40,20 @@ class HomekitFan(Accessory):
         fan.setter_callback = self.update_state
 
     async def run(self):
-        await self.fan_service.start_reading()
-        await self.update_device()
+        try:
+            await self.fan_service.start_reading()
+            await self.update_device()
+        except Exception:
+            print("killing")
+            sys.exit()
 
     @Accessory.run_at_interval(3)
     async def update_device(self):
         try:
             await self.fan_service.request_states()
         except Exception:
-            return
+            print("killing")
+            sys.exit()
 
         current_state = self.fan_service.most_recent_state
 
@@ -59,7 +65,10 @@ class HomekitFan(Accessory):
         self.rotation_char.set_value(current_state.oscillation.homekit_value())
 
     async def stop(self):
-        await self.fan_service.disconnect()
+        try:
+            await self.fan_service.disconnect()
+        except Exception:
+            return
 
     def update_state(self, char_values: Dict[str, Any]) -> None:
         is_active = (FanMode.from_homekit_value(char_values['Active'])
@@ -76,5 +85,4 @@ class HomekitFan(Accessory):
                                                                                    oscillation=oscillation)
         state_command = Command(CommandType.SET_STATE, desired_state)
         self.driver.add_job(self.fan_service.write_command(state_command))
-        self.driver.add_job(self.fan_service.request_states())
 
