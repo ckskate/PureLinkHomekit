@@ -40,20 +40,15 @@ class HomekitFan(Accessory):
         fan.setter_callback = self.update_state
 
     async def run(self):
-        try:
-            await self.fan_service.start_reading()
-            await self.update_device()
-        except Exception:
-            print("killing")
-            sys.exit()
+        await self.fan_service.start_reading()
+        await self.update_device()
 
     @Accessory.run_at_interval(3)
     async def update_device(self):
         try:
             await self.fan_service.request_states()
         except Exception:
-            print("killing")
-            sys.exit()
+            return
 
         current_state = self.fan_service.most_recent_state
 

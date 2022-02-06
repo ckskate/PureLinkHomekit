@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from asyncio_mqtt import Client, MqttError
 from contextlib import AsyncExitStack, asynccontextmanager
 from typing import Dict, Union, Any, Optional
@@ -11,6 +12,8 @@ from assembler.state_assembler import StateAssembler
 from assembler.command_assembler import CommandAssembler
 
 
+logger = logging.getLogger(__name__)
+
 class FanService:
     username: str
     password: str
@@ -19,6 +22,7 @@ class FanService:
 
     most_recent_state: Optional[DeviceState]
     most_recent_environment_state: Optional[EnvironmentState]
+    task: Optional[asyncio.Task]
 
     def __init__(self,
                  username: str,
@@ -26,22 +30,44 @@ class FanService:
         self.username = username
         self.password = hash_password(password)
         self.command_topic = f"{DEVICE_NUMBER}/{username}/command"
-        self.mqttc = Client(f"{username}.local",
-                            port=1883,
-                            username=f"{username}",
-                            password=f"{self.password}")
+        #self.mqttc = Client(f"{username}.local",
+        #                    port=1883,
+        #                    username=f"{username}",
+        #                    password=f"{self.password}")
         self.most_recent_state = None
         self.most_recent_environment_state = None
+        self.task = None
 
     async def start_reading(self):
-        await self.mqttc.connect(timeout=1)
-        await self.mqttc.subscribe(f"{DEVICE_NUMBER}/{self.username}/status/current")
         # start reading the states
-        asyncio.create_task(self.read_states())
+        self.task = asyncio.get_running_loop().create_task(self._read_loop())
 
-    async def read_states(self) -> None:
+    async def _read_loop(self):
+        while True:
+            try:
+                await self._read_states()
+            except MqttError as error:
+                logger.info(f'error: "{error}". reconnecting in 3 seconds.')
+            finally:
+                await asyncio.sleep(3)
+                logger.info('reconnecting!')
+
+    async def _read_states(self) -> None:
         async with AsyncExitStack() as stack:
             assembler = StateAssembler()
+
+            self.mqttc = Client(f"{self.username}.local",
+                            port=1883,
+                            username=f"{self.username}",
+                            password=f"{self.password}")
+
+            # connect
+            await stack.enter_async_context(self.mqttc)
+
+            # subscribe
+            await self.mqttc.subscribe(f"{DEVICE_NUMBER}/{self.username}/status/current")
+
+            # the messages
             messages = await stack.enter_async_context(
                                  self.mqttc.unfiltered_messages())
             async for message in messages:
@@ -51,6 +77,15 @@ class FanService:
                 elif isinstance(state, EnvironmentState):
                     self.most_recent_environment_state = state
 
+    async def cancel_task(self):
+        if self.task == None or self.task.done():
+            return
+        try:
+            self.task.cancel()
+            await self.task
+        except asyncio.CancelledError:
+            pass
+
     async def request_states(self) -> None:
         #await asyncio.gather(self.write_command(Command(CommandType.REQUEST_STATE)),
         #                     self.write_command(Command(CommandType.REQUEST_ENVIRONMENT_STATE)))
@@ -58,11 +93,13 @@ class FanService:
 
     async def write_command(self, command: Command) -> None:
         command_json = CommandAssembler().json_from_command(command)
-        print(command_json)
+        logger.info(command_json)
         await self.mqttc.publish(self.command_topic, command_json, qos=1)
 
     async def disconnect(self) -> None:
-        await self.mqttc.disconnect()
+        if self.task != None:
+            await self.cancel_task()
+            self.task = None
 
 
 if __name__ == "__main__":
