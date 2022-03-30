@@ -14,8 +14,9 @@ from homekit_fan import HomekitFan
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
+    config_filepath = str(pathlib.PurePath(__file__).parent) + "/user.ini"
     config = configparser.ConfigParser()
-    config.read('/home/pi/PureLinkHomekit/src/user.ini')
+    config.read(config_filepath)
     user = config['User']
     username = user['id']
     password = user['pass']
