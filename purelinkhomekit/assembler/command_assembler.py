@@ -11,9 +11,9 @@ from purelinkhomekit import assembler
 def command_to_json(command: model.Command) -> Optional[str]:
   """converts a fan command to its json representation."""
 
-  if command.commandType == model.CommandType.REQUEST_STATE:
-    return __request_state_to_json(command.commandType)
-  if (command.commandType == model.CommandType.SET_STATE
+  if command.command_type == model.CommandType.REQUEST_STATE:
+    return __request_state_to_json(command.command_type)
+  if (command.command_type == model.CommandType.SET_STATE
       and isinstance(command.state, model.DeviceState)):
     return __set_state_to_json(command.state)
   return None
