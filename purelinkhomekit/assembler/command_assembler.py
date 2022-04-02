@@ -4,8 +4,8 @@ from typing import Optional
 import time
 import json
 
-from . import model
-from . import assembler
+from purelinkhomekit import model
+from purelinkhomekit import assembler
 
 
 def command_to_json(command: model.Command) -> Optional[str]:
