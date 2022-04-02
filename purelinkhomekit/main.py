@@ -8,7 +8,7 @@ import configparser
 
 from pyhap.accessory_driver import AccessoryDriver
 
-from src.homekit_fan import HomekitFan
+from purelinkhomekit.homekit_fan import HomekitFan
 
 
 if __name__ == "__main__":

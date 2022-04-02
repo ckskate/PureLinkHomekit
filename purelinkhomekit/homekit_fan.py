@@ -7,8 +7,8 @@ from pyhap.accessory_driver import AccessoryDriver
 from pyhap.const import CATEGORY_FAN
 from asyncio_mqtt import MqttError
 
-from src import model
-from src import fan_service
+from purelinkhomekit import model
+from purelinkhomekit import fan_service
 
 
 class HomekitFan(Accessory):

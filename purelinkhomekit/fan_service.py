@@ -7,9 +7,9 @@ from typing import Optional
 
 from asyncio_mqtt import Client, MqttError
 
-from src import util
-from src import model
-from src import assembler
+from purelinkhomekit import util
+from purelinkhomekit import model
+from purelinkhomekit import assembler
 
 logger = logging.getLogger(__name__)
 

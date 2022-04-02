@@ -3,7 +3,7 @@
 from enum import Enum
 from typing import Optional
 
-from src import model
+from purelinkhomekit import model
 
 class CommandType(Enum):
   """types of commands you can send the fan."""
