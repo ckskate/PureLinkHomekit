@@ -10,6 +10,7 @@ class StateType(Enum):
 
   CURRENT_STATE = 'CURRENT-STATE'
   STATE_CHANGE = 'STATE-CHANGE'
+  ENVIRONMENT_DATA = 'ENVIRONMENTAL-CURRENT-SENSOR-DATA'
 
 class FanMode(Enum):
   """fan speed mode. can be 'off', 'fan' (which is regular), or 'auto'."""
