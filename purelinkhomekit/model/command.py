@@ -3,7 +3,7 @@
 from enum import Enum
 from typing import Optional
 
-from purelinkhomekit import model
+import purelinkhomekit.model.state as model
 
 class CommandType(Enum):
   """types of commands you can send the fan."""
@@ -15,11 +15,11 @@ class CommandType(Enum):
 class Command:
   """command that can be sent or received from the fan."""
 
-  command_type: model.CommandType
+  command_type: CommandType
   state: Optional[model.DeviceState]
 
   def __init__(self,
-               command_type: model.CommandType,
+               command_type: CommandType,
                state: Optional[model.DeviceState] = None):
     self.command_type = command_type
     self.state = state

@@ -3,7 +3,7 @@
 import json
 from typing import Dict, Union, Any, Optional
 
-from purelinkhomekit import model
+from . import model
 
 
 def dto_from_device_state(state: model.DeviceState
