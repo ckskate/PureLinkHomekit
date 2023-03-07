@@ -1,0 +1,100 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/cnnr/proj/PureLinkHomekit/purelinkhomekit/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210905.0/
+AUTO	model/state.py	/^  AUTO = 'AUTO'$/;"	v	class:FanMode
+CONFIG_FILEPATH	main.py	/^  CONFIG_FILEPATH = str(pathlib.PurePath(__file__).parent) + "\/user.ini"$/;"	v
+CURRENT_STATE	model/state.py	/^  CURRENT_STATE = 'CURRENT-STATE'$/;"	v	class:StateType
+Command	model/command.py	/^class Command:$/;"	c
+CommandType	model/command.py	/^class CommandType(Enum):$/;"	c
+DEVICE_NUMBER	model/state.py	/^DEVICE_NUMBER = "475"$/;"	v
+DeviceState	model/state.py	/^class DeviceState:$/;"	c
+FAN	model/state.py	/^  FAN = 'FAN'$/;"	v	class:FanMode
+FAN_OFF	model/state.py	/^  FAN_OFF = "OFF"$/;"	v	class:FanState
+FAN_ON	model/state.py	/^  FAN_ON = "FAN"$/;"	v	class:FanState
+FAN_SPEED_1	model/state.py	/^  FAN_SPEED_1 = '0001'$/;"	v	class:FanSpeed
+FAN_SPEED_10	model/state.py	/^  FAN_SPEED_10 = '0010'$/;"	v	class:FanSpeed
+FAN_SPEED_2	model/state.py	/^  FAN_SPEED_2 = '0002'$/;"	v	class:FanSpeed
+FAN_SPEED_3	model/state.py	/^  FAN_SPEED_3 = '0003'$/;"	v	class:FanSpeed
+FAN_SPEED_4	model/state.py	/^  FAN_SPEED_4 = '0004'$/;"	v	class:FanSpeed
+FAN_SPEED_5	model/state.py	/^  FAN_SPEED_5 = '0005'$/;"	v	class:FanSpeed
+FAN_SPEED_6	model/state.py	/^  FAN_SPEED_6 = '0006'$/;"	v	class:FanSpeed
+FAN_SPEED_7	model/state.py	/^  FAN_SPEED_7 = '0007'$/;"	v	class:FanSpeed
+FAN_SPEED_8	model/state.py	/^  FAN_SPEED_8 = '0008'$/;"	v	class:FanSpeed
+FAN_SPEED_9	model/state.py	/^  FAN_SPEED_9 = '0009'$/;"	v	class:FanSpeed
+FAN_SPEED_AUTO	model/state.py	/^  FAN_SPEED_AUTO = 'AUTO'$/;"	v	class:FanSpeed
+FanMode	model/state.py	/^class FanMode(Enum):$/;"	c
+FanService	fan_service.py	/^class FanService:$/;"	c
+FanSpeed	model/state.py	/^class FanSpeed(Enum):$/;"	c
+FanState	model/state.py	/^class FanState(Enum):$/;"	c
+HomekitFan	homekit_fan.py	/^class HomekitFan(Accessory):$/;"	c
+NIGHT_MODE_OFF	model/state.py	/^  NIGHT_MODE_OFF = 'OFF'$/;"	v	class:NightMode
+NIGHT_MODE_ON	model/state.py	/^  NIGHT_MODE_ON = 'ON'$/;"	v	class:NightMode
+NightMode	model/state.py	/^class NightMode(Enum):$/;"	c
+OFF	model/state.py	/^  OFF = 'OFF'$/;"	v	class:FanMode
+OSCILLATION_OFF	model/state.py	/^  OSCILLATION_OFF = 'OFF'$/;"	v	class:Oscillation
+OSCILLATION_ON	model/state.py	/^  OSCILLATION_ON = 'ON'$/;"	v	class:Oscillation
+Oscillation	model/state.py	/^class Oscillation(Enum):$/;"	c
+PERSIST_FILEPATH	main.py	/^  PERSIST_FILEPATH = (str(pathlib.PurePath(__file__).parent.parent)$/;"	v
+QUALITY_BETTER	model/state.py	/^  QUALITY_BETTER = "0001"$/;"	v	class:QualityTarget
+QUALITY_HIGH	model/state.py	/^  QUALITY_HIGH = "0003"$/;"	v	class:QualityTarget
+QUALITY_NORMAL	model/state.py	/^  QUALITY_NORMAL = "0004"$/;"	v	class:QualityTarget
+QualityTarget	model/state.py	/^class QualityTarget(Enum):$/;"	c
+REQUEST_ENVIRONMENT_STATE	model/command.py	/^  REQUEST_ENVIRONMENT_STATE = 'REQUEST-PRODUCT-ENVIRONMENT-CURRENT-SENSOR-DATA'$/;"	v	class:CommandType
+REQUEST_STATE	model/command.py	/^  REQUEST_STATE = 'REQUEST-CURRENT-STATE'$/;"	v	class:CommandType
+SET_STATE	model/command.py	/^  SET_STATE = 'STATE-SET'$/;"	v	class:CommandType
+STANDBY_MONITORING_OFF	model/state.py	/^  STANDBY_MONITORING_OFF = "OFF"$/;"	v	class:StandbyMonitoring
+STANDBY_MONITORING_ON	model/state.py	/^  STANDBY_MONITORING_ON = "ON"$/;"	v	class:StandbyMonitoring
+STATE_CHANGE	model/state.py	/^  STATE_CHANGE = 'STATE-CHANGE'$/;"	v	class:StateType
+StandbyMonitoring	model/state.py	/^class StandbyMonitoring(Enum):$/;"	c
+StateType	model/state.py	/^class StateType(Enum):$/;"	c
+__device_state_from_state_json	assembler/state_assembler.py	/^def __device_state_from_state_json(dto: Dict[str, Any]) -> model.DeviceState:$/;"	f	typeref:typename:model.DeviceState
+__init__	fan_service.py	/^  def __init__(self,$/;"	m	class:FanService
+__init__	homekit_fan.py	/^  def __init__(self,$/;"	m	class:HomekitFan
+__init__	model/command.py	/^  def __init__(self,$/;"	m	class:Command
+__init__	model/state.py	/^  def __init__(self,$/;"	m	class:DeviceState	typeref:typename:None
+__read_dto_value	assembler/state_assembler.py	/^def __read_dto_value(dto: Dict[str, Any],$/;"	f	typeref:typename:Union[str,int]
+__read_states	fan_service.py	/^  async def __read_states(self) -> None:$/;"	m	class:FanService	typeref:typename:None	file:
+__repr__	model/state.py	/^    def __repr__(self):$/;"	f	member:DeviceState.state_setting_values_to	file:
+__request_state_to_json	assembler/command_assembler.py	/^def __request_state_to_json(command_type: model.CommandType$/;"	f	typeref:typename:Optional[str]
+__run_main_loop	fan_service.py	/^  async def __run_main_loop(self):$/;"	m	class:FanService	file:
+__set_state_to_json	assembler/command_assembler.py	/^def __set_state_to_json(state: model.DeviceState) -> Optional[str]:$/;"	f	typeref:typename:Optional[str]
+__stop_main_loop	fan_service.py	/^  async def __stop_main_loop(self):$/;"	m	class:FanService	file:
+__update_state	homekit_fan.py	/^  def __update_state(self, char_values: Dict[str, Any]) -> None:$/;"	m	class:HomekitFan	typeref:typename:None	file:
+_update_device	homekit_fan.py	/^  async def _update_device(self):$/;"	m	class:HomekitFan
+category	homekit_fan.py	/^  category = CATEGORY_FAN$/;"	v	class:HomekitFan
+command_to_json	assembler/command_assembler.py	/^def command_to_json(command: model.Command) -> Optional[str]:$/;"	f	typeref:typename:Optional[str]
+config	main.py	/^  config = configparser.ConfigParser()$/;"	v
+disconnect	fan_service.py	/^  async def disconnect(self) -> None:$/;"	m	class:FanService	typeref:typename:None
+driver	main.py	/^  driver = AccessoryDriver(persist_file=PERSIST_FILEPATH,$/;"	v
+dto_from_device_state	assembler/state_assembler.py	/^def dto_from_device_state(state: model.DeviceState$/;"	f	typeref:typename:Optional[Dict[str,Any]]
+fan	main.py	/^  fan = homekit_fan.HomekitFan(username, password, driver)$/;"	v
+from_homekit_value	model/state.py	/^  def from_homekit_value(value: float):$/;"	m	class:FanSpeed
+from_homekit_value	model/state.py	/^  def from_homekit_value(value: int):$/;"	m	class:FanMode
+from_homekit_value	model/state.py	/^  def from_homekit_value(value: int):$/;"	m	class:FanState
+from_homekit_value	model/state.py	/^  def from_homekit_value(value: int):$/;"	m	class:Oscillation
+hash_password	util.py	/^def hash_password(pwd: str) -> str:$/;"	f	typeref:typename:str
+homekit_value	model/state.py	/^  def homekit_value(self) -> Optional[int]:$/;"	m	class:FanMode	typeref:typename:Optional[int]
+homekit_value	model/state.py	/^  def homekit_value(self):$/;"	m	class:FanSpeed
+homekit_value	model/state.py	/^  def homekit_value(self):$/;"	m	class:FanState
+homekit_value	model/state.py	/^  def homekit_value(self):$/;"	m	class:Oscillation
+logger	fan_service.py	/^logger = logging.getLogger(__name__)$/;"	v
+loop	main.py	/^  loop = asyncio.get_event_loop()$/;"	v
+password	main.py	/^  password = user['pass']$/;"	v
+request_states	fan_service.py	/^  async def request_states(self) -> None:$/;"	m	class:FanService	typeref:typename:None
+run	homekit_fan.py	/^  async def run(self):$/;"	m	class:HomekitFan
+signal_handler	main.py	/^  def signal_handler(_sig, _frame):$/;"	f
+start_main_run_loop	fan_service.py	/^  async def start_main_run_loop(self):$/;"	m	class:FanService
+state_from_message_json	assembler/state_assembler.py	/^def state_from_message_json(dto: bytes) -> Optional[model.DeviceState]:$/;"	f	typeref:typename:Optional[model.DeviceState]
+state_setting_values_to	model/state.py	/^  def state_setting_values_to(self,$/;"	m	class:DeviceState
+stop	homekit_fan.py	/^  async def stop(self):$/;"	m	class:HomekitFan
+user	main.py	/^  user = config['User']$/;"	v
+username	main.py	/^  username = user['id']$/;"	v
+write_command	fan_service.py	/^  async def write_command(self, command: model.Command) -> None:$/;"	m	class:FanService	typeref:typename:None

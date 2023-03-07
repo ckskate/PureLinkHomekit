@@ -1,0 +1,9 @@
+asyncio-mqtt==0.12.1
+cffi==1.15.0
+cryptography==36.0.2
+h11==0.13.0
+HAP-python==4.4.0
+ifaddr==0.1.7
+paho-mqtt==1.6.1
+pycparser==2.21
+zeroconf==0.38.4

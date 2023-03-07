@@ -1,0 +1,12 @@
+[Unit]
+Description=Dyson Pure Cool Link Server
+After=network.target local-fs.target bluetooth.target
+Requires=network.target local-fs.target bluetooth.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/PureLinkHomekit/src/main.py
+User=pi
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
